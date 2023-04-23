@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Member {
     @Id
     private Long id;
-    @Column(name="name")
+    @Column(name="Hey")
     private String name;
 
     public Member(){}
