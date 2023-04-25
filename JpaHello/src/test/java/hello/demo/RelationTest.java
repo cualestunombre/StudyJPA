@@ -70,8 +70,8 @@ public class RelationTest {
         player.setTeam(null);
 
     }
-    @Test
-    @Transactional
+//    @Test
+//    @Transactional
     public void biDirection(){
         Team team = em.find(Team.class,"team1");
         List<Player> players = team.getPlayers();
@@ -79,9 +79,9 @@ public class RelationTest {
             log.info("id:{} name:{}",player.getId(),player.getUsername());
         }
     }
-    @Test
-    @Transactional
-    @Commit
+//    @Test
+//    @Transactional
+//    @Commit
     public void biDirectionInsert(){
         Team team = new Team();
         team.setName("팀2");
@@ -94,6 +94,45 @@ public class RelationTest {
         player.setTeam(team);
 
         em.persist(player);
+
+    }
+
+//    @Test
+//    @Transactional
+//    @Commit
+    public void noneOwnerInsert(){
+        Player player = new Player();
+        player.setUsername("플레이어3");
+        player.setId("player3");
+        em.persist(player);
+        Team team = em.find(Team.class,"team2");
+        team.getPlayers().add(player);
+        //주인이 아니라 반영이 안됨
+
+    }
+    @Test
+    @Transactional
+
+    public void withOutBoth(){
+
+
+        Team t = new Team();
+        t.setId("team3");
+        t.setName("팀3");
+        Player p = new Player();
+        p.setUsername("플레이어6");
+        p.setId("player6");
+        p.setTeam(t);
+        em.persist(t);
+        em.persist(p);
+        em.flush();
+        em.clear();
+        log.info("=======");
+        for(Player px : em.find(Team.class,t.getId()).getPlayers()){
+            log.info("id:{} name:{}",px.getId(),px.getUsername());
+        }
+        log.info("=======");
+        //출력이 안됨 --> 편의 메서드 사용하면 됨
 
     }
 

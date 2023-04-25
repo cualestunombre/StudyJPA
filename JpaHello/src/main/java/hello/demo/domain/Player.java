@@ -20,11 +20,12 @@ public class Player {
     private Team team;
 
     public void setTeam(Team team){
-        if(this.team != null){
-            this.team.getPlayers().remove(this);
-        }
+//        if(this.team != null){
+//            this.team.getPlayers().remove(this);
+//        }
+//        this.team=team;
+//        team.getPlayers().add(this);
         this.team=team;
-        team.getPlayers().add(this);
 
     }
 

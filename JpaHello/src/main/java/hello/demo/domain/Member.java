@@ -2,10 +2,10 @@ package hello.demo.domain;
 
 import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 /*
 기본 생성자 필수(public)
 저장할 필드 final하지 말 것
@@ -15,13 +15,19 @@ import javax.persistence.Table;
 @Table(name="member")
 public class Member {
     @Id
+    @GeneratedValue
     private Long id;
-    @Column(name="Hey")
+    @Column(name="USER_NAME")
     private String name;
+
+    @OneToMany(mappedBy = "member")
+    private List<Order> orderList = new ArrayList<>();
 
     public Member(){}
     public Member(Long id,String name){
-        this.id=id;
-        this.name=name;
+        this.id = id;
+        this.name = name;
     }
+
+
 }
