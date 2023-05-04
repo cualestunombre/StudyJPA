@@ -1,6 +1,6 @@
 package hello.demo.repository;
 
-import hello.demo.domain.Member;
+import hello.demo.domain.project.Member;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
