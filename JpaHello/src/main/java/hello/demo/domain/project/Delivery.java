@@ -17,8 +17,8 @@ public class Delivery  extends  BaseEntity{
 
     @Embedded
     private Address address;
-
-    @OneToOne(mappedBy = "delivery")
+    //부모인 배송이 사라지면 Delivery도 사라진다
+    @OneToOne(mappedBy = "delivery",fetch = FetchType.LAZY,orphanRemoval = true)
     private Orders order;
 
 

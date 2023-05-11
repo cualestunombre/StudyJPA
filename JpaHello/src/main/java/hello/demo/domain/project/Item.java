@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name="DTYPE")
 public abstract class Item extends BaseEntity{
     @Id
@@ -23,10 +23,10 @@ public abstract class Item extends BaseEntity{
     private Integer price;
     private Integer stockQuantity;
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
     List<CategoryItem> categoryItemList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "item")
+    @OneToMany(mappedBy = "item",fetch = FetchType.LAZY)
     List<OrderItem> orderItemList = new ArrayList<>();
 
 }

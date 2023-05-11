@@ -18,6 +18,29 @@ public class FetchJoinTest {
     EntityManager em;
 
     @Test
+    void graphSearch(){
+        Orders order1 = new Orders();
+        Orders order2 = new Orders();
+        Member  member1 = new Member();
+        Member member2 = new Member();
+        Member member3 = new Member();
+        order1.setMember(member1);
+        order2.setMember(member2);
+        em.persist(order1);
+        em.persist(order2);
+        em.persist(member1);
+        em.persist(member2);
+        em.persist(member3);
+        em.flush();
+        em.clear();
+        String jpql = "SELECT  o.member FROM Orders o";
+        List<Long> integerList = em.createQuery(jpql,Long.class).getResultList();
+        for(Long id: integerList){
+            System.out.println(id);
+        }
+
+    }
+    @Test
     void fetchJoinTest(){
         Orders order1 = new Orders();
         Orders order2 = new Orders();
@@ -80,14 +103,38 @@ public class FetchJoinTest {
         em.flush();
         em.clear();
         System.out.println("--join쿼리 실행--");
-        List<Member> members = em.createQuery("SELECT DISTINCT m FROM Member m join fetch  m.orderList ", Member.class).getResultList();
+        List<Member> members = em.createQuery("SELECT  m  FROM Member m join   m.orderList ", Member.class).getResultList();
         // 페이징 API를 사용할 수 없다
         //fetch join에 별칭을 주지 말 것
         for(Member member: members){
             System.out.println(member.getOrderList().size());
+            System.out.println("id: "+member.getId());
             //찾고자 하는 멤버는 2개인데 3개가 실행 됨 -> DISTINCT로 해결
         }
         System.out.println("--join쿼리 실행--");
+
+        System.out.println("--단 한 번이라도 주문한 멤버 찾기--");
+        String jpql = "SELECT m FROM Member m" +
+                " WHERE " +
+                "(SELECT count(o) FROM Orders o WHERE o.member=m )>0";
+        List<Member> orderMembers = em.createQuery(jpql,Member.class).getResultList();
+        for(Member m:orderMembers){
+            System.out.println(m.getId());
+        }
+        System.out.println("--단 한 번이라도 주문한 멤버 찾기--");
+
+        System.out.println("--where exists 쿼리--");
+        jpql = "SELECT m FROM Member m " +
+                "WHERE EXISTS " +
+                "(SELECT 1 FROM Orders o WHERE m=o.member)";
+        List<Member> exist = em.createQuery(jpql,Member.class).getResultList();
+        for(Member m:exist){
+            System.out.println(m.getId());
+        }
+        System.out.println("--where exists 쿼리--");
+
+
+
 
     }
 }

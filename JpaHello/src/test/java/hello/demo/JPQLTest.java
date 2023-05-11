@@ -1,9 +1,7 @@
 package hello.demo;
 
 import hello.demo.domain.MemberDto;
-import hello.demo.domain.project.Member;
-import hello.demo.domain.project.Orders;
-import hello.demo.domain.project.Type;
+import hello.demo.domain.project.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -126,6 +124,25 @@ public class JPQLTest {
         System.out.println(fM.size());
 
 
+
+    }
+
+    @Test
+    void inheritanceTest(){
+        OrderItem orderItem = new OrderItem();
+        Book book = new Book();
+        book.setPrice(5000);
+        orderItem.setItem(book);
+        em.persist(book);
+        em.persist(orderItem);
+        String jpql = "SELECT i FROM Item i WHERE type(i) IN(Book)";
+
+        System.out.println("inheritance");
+        List<Item> orderItems = em.createQuery(jpql, Item.class).getResultList();
+        for(Item o : orderItems){
+            System.out.println(o.getName());
+        }
+        System.out.println("inheritance");
 
     }
 }
