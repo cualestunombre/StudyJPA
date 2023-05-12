@@ -20,7 +20,7 @@ public class InitialTest {
         OrderItem orderItem = new OrderItem();
         Book book = new Book();
         book.setName("데미안");
-        Order order = new Order();
+        Order order = Order.createOrder(null,null,null);
         Delivery delivery = new Delivery();
         order.setDelivery(delivery);
         orderItem.setItem(book);
