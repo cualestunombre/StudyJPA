@@ -19,7 +19,7 @@ public class OrderService {
     private final ItemRepository itemRepository;
 
     @Transactional
-    public Long order(Long memberId,Long itemId,int count){
+    public Long order(Long memberId,Long itemId,int count){//서비스 계층에서는 이렇게 id를 받아오는 것이 좋다
         Member member = memberRepository.findOne(memberId);
         Item item = itemRepository.findOne(itemId);
 

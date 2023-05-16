@@ -1,5 +1,6 @@
 package hello.jpa.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -24,6 +25,8 @@ public class Order {
     private Member member;
 
     //단지 컬렉션에 추가하고, 상대의 참조에 set하는 것으로 persist를 수행할 필요가 없다
+
+
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
