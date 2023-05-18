@@ -27,16 +27,33 @@ public class OrderRepository {
         String jpql = "SELECT o FROM Order o";
         return em.createQuery(jpql,Order.class).getResultList();
     }
+    public List<Order> findAllWithItem(){
+        //distinct를 붙이는 이유는 데이터의 뻥튀기를 막기 위함이다
+        return em.createQuery(
+          "select  distinct o from Order o" +
+                  " join fetch o.member m" +
+                  " join  fetch o.delivery d" +
+                  " join  fetch o.orderItems oi" +
+                  " join  fetch oi.item i"
+        ,Order.class).getResultList();
+        //fetch join 에서는 여러개의 컬렉션을 조인할 수 없다
+    }
     public List<Order> findAllWithMemberDelivery(){
         String jpql = "SELECT o FROM Order o JOIN FETCH o.member JOIN FETCH o.delivery ";
         return em.createQuery(jpql,Order.class).getResultList();
 
     }
-    public List<OrderDto> findOrderDtos(){
-        String jpql = "SELECT new hello.jpa.domain.OrderDto(o.id,m.name,o.orderDate,o.status,d.address) " +
-                "FROM Order o JOIN o.member m JOIN  o.delivery d";
-        return em.createQuery(jpql, OrderDto.class).getResultList();
+
+    public List<Order> findAllWithMemberDelivery(int offset, int limit){
+        return em.createQuery(
+          "select o from Order o" +
+                  " join fetch o.member m" +
+                  " join fetch o.delivery d",Order.class)
+                .setFirstResult(offset)
+                .setMaxResults(limit)
+                .getResultList();
     }
+
     public List<Order> findAllByString(OrderSearch orderSearch){ //조건을 더해서 주문정보를 가져온다
         String jpql = "SELECT o FROM Order o join o.member m"; // 멤버가 있는 주문을 불러온다
         boolean isFirstCondition = true;
@@ -68,4 +85,8 @@ public class OrderRepository {
         }
         return query.getResultList();
     }
+
+
+
+
 }

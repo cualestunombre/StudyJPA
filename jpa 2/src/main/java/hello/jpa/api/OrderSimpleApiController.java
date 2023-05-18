@@ -1,14 +1,12 @@
 package hello.jpa.api;
 
 import hello.jpa.domain.*;
+import hello.jpa.repository.OrderSimpleQueryRepository;
 import hello.jpa.repository.OrderRepository;
-import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -16,7 +14,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderSimpleApiController {
     private final OrderRepository orderRepository;
-
+    private final OrderSimpleQueryRepository orderSimpleQueryRepository;
     @GetMapping("/api/v1/simple-orders") //아주 비효율적임
     public List<Order> ordersV1(){
         List<Order> all = orderRepository.findAllByString(new OrderSearch(null,null));
@@ -51,9 +49,10 @@ public class OrderSimpleApiController {
     }
     @GetMapping("/api/v4/simple-orders")
     public Result ordersV4(){
-        List<OrderDto> collection = orderRepository.findOrderDtos();
+        List<OrderSimpleQueryDto> collection = orderSimpleQueryRepository.findOrderDtos();
         return new Result(collection.size(),collection);
     }
+
 
 
 

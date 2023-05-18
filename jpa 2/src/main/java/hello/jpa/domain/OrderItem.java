@@ -3,6 +3,7 @@ package hello.jpa.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import javax.persistence.*;
 
@@ -15,6 +16,7 @@ public class OrderItem {
     @GeneratedValue
     @Column(name="order_item_id")
     private Long id;
+
 
 
     @ManyToOne(fetch=FetchType.LAZY)
