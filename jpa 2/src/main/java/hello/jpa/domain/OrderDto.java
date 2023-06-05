@@ -24,6 +24,7 @@ public class OrderDto{
         orderStatus = order.getStatus();
         address = order.getDelivery().getAddress();
         orderItems = order.getOrderItems().stream().map(o->new OrderItemDto(o)).collect(Collectors.toList());
+
     }
 
 

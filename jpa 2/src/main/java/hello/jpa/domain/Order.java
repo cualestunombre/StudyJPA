@@ -25,8 +25,8 @@ public class Order {
     @JoinColumn(name="member_id")
     private Member member;
 
-    //단지 컬렉션에 추가하고, 상대의 참조에 set하는 것으로 persist를 수행할 필요가 없다
-
+    // 단지 컬렉션에 추가하고, 상대의 참조에 set하는 것으로 persist를 수행할 필요가 없다
+    // mapped by와 cascade의 차이는 mapped by는 연관관계를 누가 관리하느냐의 논의고 cascade는 persist의 주체를 나타내는 역할을 한다
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();

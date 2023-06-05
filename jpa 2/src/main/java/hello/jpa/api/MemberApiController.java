@@ -20,6 +20,7 @@ public class MemberApiController {
 
     @PostMapping("/api/v1/members")
     public  CreateMemberResponse saveMemberV1(@RequestBody @Valid Member member){
+        // 멤버객체는 직접 노출하지 않는 것이 좋다
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
     }
@@ -27,7 +28,6 @@ public class MemberApiController {
     public CreateMemberResponse saveMemberV2(@RequestBody @Valid CreateMemberRequest request){
         Member member = new Member();
         member.setName(request.getName());
-
         Long id = memberService.join(member);
         return new CreateMemberResponse(id);
 

@@ -30,6 +30,7 @@ public class Category {
     @JoinColumn(name="parent_id")
     private Category parent;
 
+    //자식 카테고리 리스트
     @OneToMany(mappedBy = "parent")
     private List<Category> child = new ArrayList<>();
 
